@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<script src="./particles.min.js.הורדה"></script>
+
+
+
+</head>
+
+
+
+<body translate="no">
+  <canvas class="background"></canvas>
+  <div class="content">
+    <h1 class="title">Hit ball game
+      <div class="aurora">
+        <div class="aurora__item"></div>
+        <div class="aurora__item"></div>
+        <div class="aurora__item"></div>
+        <div class="aurora__item"></div>
+      </div>
+    </h1>
+  </div>
+  <div id="timerdiv"><p>timer:</p><p id="thetime"></p></div>
+
+  <div id="myDiv"></div>
+
+  <div id="myDiv2"></div>
+
+  <button id="play_gain" onclick="game()">
+    start play
+  </button>
+</body>
+
+<style>
+  body {
+    font-family: "ROBOTO", sans-serif;
+    background-color: black;
+  }
+
+  #timerdiv{
+    color: #ff0266; 
+    font-size: 40px;
+    position: absolute;
+    top: 50px;
+    right: 60px;
+    text-align: center;
+  }
+
+  .background {
+    position: absolute;
+    height: 90vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: auto;
+  }
+
+  @media (min-width: 800px) {
+
+    .nav h1,
+    .slider h1 {
+      font-size: 5vw;
+    }
+
+    .nav h2,
+    .slider h2 {
+      font-size: 3vw;
+    }
+
+    .nav-tab {
+      font-size: 3vw;
+    }
+  }
+
+  @media screen only (min-width: 360px) {
+
+    .nav h1,
+    .slider h1 {
+      font-size: 8vw;
+    }
+
+    .nav h2,
+    .slider h2 {
+      font-size: 2vw;
+      letter-spacing: 0.2vw;
+    }
+
+    .nav-tab {
+      font-size: 1.2vw;
+    }
+  }
+
+  .loader span {
+    color: #faebd7;
+    text-shadow: 0 0 0 #faebd7;
+    -webkit-animation: loading 1s ease-in-out infinite alternate;
+  }
+
+  */ h1 {
+    font-size: 400%;
+    font-family: Fb Bampi;
+    margin-left: 38%;
+    color: aliceblue;
+  }
+
+  #myDiv {
+    position: absolute;
+    left: 200px;
+    top: 150px;
+    
+  }
+
+  #myDiv2 {
+    margin-left: 5%;
+  }
+
+  #btn {
+    width: 30px;
+  }
+
+
+
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap");
+
+  :root {
+    --bg: none --clr-1: #ff0266;
+    --clr-2: hsl(174, 97%, 43%);
+    --clr-3: #faebd7;
+    --clr-4: #ff0266;
+
+    --blur: 1rem;
+    --fs: clamp(3rem, 8vw, 7rem);
+    --ls: clamp(-1.75px, -0.25vw, -3.5px);
+  }
+
+  body {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-family: "Inter", "DM Sans", Arial, sans-serif;
+  }
+
+  *,
+  *::before,
+  *::after {
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+
+
+
+  .title {
+    font-size: var(--fs);
+    font-weight: 800;
+    letter-spacing: var(--ls);
+    position: absolute;
+    overflow: hidden;
+    background: var(--bg);
+    margin: 0;
+    right: 31.5%;
+    top: 3%;
+
+  }
+
+
+
+  .aurora {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    mix-blend-mode: darken;
+    pointer-events: none;
+  }
+
+  .aurora__item {
+    overflow: hidden;
+    position: absolute;
+    width: 60vw;
+    height: 60vw;
+    background-color: var(--clr-1);
+    border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
+    filter: blur(var(--blur));
+    mix-blend-mode: overlay;
+  }
+
+  .aurora__item:nth-of-type(1) {
+    top: -50%;
+    animation: aurora-border 6s ease-in-out infinite,
+      aurora-1 12s ease-in-out infinite alternate;
+  }
+
+  .aurora__item:nth-of-type(2) {
+    background-color: var(--clr-3);
+    right: 0;
+    top: 0;
+    animation: aurora-border 6s ease-in-out infinite,
+      aurora-2 12s ease-in-out infinite alternate;
+  }
+
+  .aurora__item:nth-of-type(3) {
+    background-color: var(--clr-2);
+    left: 0;
+    bottom: 0;
+    animation: aurora-border 6s ease-in-out infinite,
+      aurora-3 8s ease-in-out infinite alternate;
+  }
+
+  .aurora__item:nth-of-type(4) {
+    background-color: var(--clr-4);
+    right: 0;
+    bottom: -50%;
+    animation: aurora-border 6s ease-in-out infinite,
+      aurora-4 24s ease-in-out infinite alternate;
+  }
+
+  @keyframes aurora-1 {
+    0% {
+      top: 0;
+      right: 0;
+    }
+
+    50% {
+      top: 100%;
+      right: 75%;
+    }
+
+    75% {
+      top: 100%;
+      right: 25%;
+    }
+
+    100% {
+      top: 0;
+      right: 0;
+    }
+  }
+
+  @keyframes aurora-2 {
+    0% {
+      top: -50%;
+      left: 0%;
+    }
+
+    60% {
+      top: 100%;
+      left: 75%;
+    }
+
+    85% {
+      top: 100%;
+      left: 25%;
+    }
+
+    100% {
+      top: -50%;
+      left: 0%;
+    }
+  }
+
+  @keyframes aurora-3 {
+    0% {
+      bottom: 0;
+      left: 0;
+    }
+
+    40% {
+      bottom: 100%;
+      left: 75%;
+    }
+
+    65% {
+      bottom: 40%;
+      left: 50%;
+    }
+
+    100% {
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  @keyframes aurora-4 {
+    0% {
+      bottom: -50%;
+      right: 0;
+    }
+
+    50% {
+      bottom: 0%;
+      right: 40%;
+    }
+
+    90% {
+      bottom: 50%;
+      right: 25%;
+    }
+
+    100% {
+      bottom: -50%;
+      right: 0;
+    }
+  }
+
+  @keyframes aurora-border {
+    0% {
+      border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
+    }
+
+    25% {
+      border-radius: 47% 29% 39% 49% / 61% 19% 66% 26%;
+    }
+
+    50% {
+      border-radius: 57% 23% 47% 72% / 63% 17% 66% 33%;
+    }
+
+    75% {
+      border-radius: 28% 49% 29% 100% / 93% 20% 64% 25%;
+    }
+
+    100% {
+      border-radius: 37% 29% 27% 27% / 28% 25% 41% 37%;
+    }
+  }
+
+  #play_gain {
+    position: absolute;
+    right: 40%;
+    bottom: 40%;
+    font-size: 50px;
+    color: #fff;
+    border-radius: 25px;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: 0 0 0 0 black inset, 0.3em 0.2em 0 0 #bbb;
+    border: 0.2em solid #ff0266;
+    padding: 0.8em;
+    text-align: center;
+    transition: 0.25s box-shadow, 0.25s transform;
+    color: w;
+  }
+
+  #play_gain:hover {
+    box-shadow: 0 4em 0 0 black inset, 0em 0em 0 0 #bbb;
+    transform: translate(0.3em, 0.2em);
+    color: #fff;
+  }
+
+  img {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    rotate: 40px deg;
+  }
+</style>
+
+
+
+
+
+
+
+<script id="rendered-js">
+
+  window.console = window.console || function (t) { };
+
+
+  window.onload = function () {
+    Particles.init({
+      selector: ".background"
+    });
+
+  };
+  const particles = Particles.init({
+    selector: ".background",
+    color: ["#03dac6", "#ff0266", "#000000"],
+    connectParticles: true,
+    responsive: [
+      {
+        breakpoint: 768,
+        options: {
+          color: ["#faebd7", "#03dac6", "#ff0266"],
+          maxParticles: 43,
+          connectParticles: false
+        }
+      }]
+  });
+
+
+
+
+
+  class NavigationPage {
+    constructor() {
+      this.currentId = null;
+      this.currentTab = null;
+      this.tabContainerHeight = 70;
+      this.lastScroll = 0;
+      let self = this;
+      $(".nav-tab").click(function () {
+        self.onTabClick(event, $(this));
+      });
+      $(window).scroll(() => {
+        this.onScroll();
+      });
+      $(window).resize(() => {
+        this.onResize();
+      });
+    }
+
+
+    checkHeaderPosition() {
+      const headerHeight = 75;
+      if ($(window).scrollTop() > headerHeight) {
+        $(".nav-container").addClass("nav-container--scrolled");
+      } else {
+        $(".nav-container").removeClass("nav-container--scrolled");
+      }
+      let offset =
+        $(".nav").offset().top +
+        $(".nav").height() -
+        this.tabContainerHeight -
+        headerHeight;
+      if (
+        $(window).scrollTop() > this.lastScroll &&
+        $(window).scrollTop() > offset) {
+        $(".nav-container").addClass("nav-container--move-up");
+        $(".nav-container").removeClass("nav-container--top-first");
+        $(".nav-container").addClass("nav-container--top-second");
+      } else if (
+        $(window).scrollTop() < this.lastScroll &&
+        $(window).scrollTop() > offset) {
+        $(".nav-container").removeClass("nav-container--move-up");
+        $(".nav-container").removeClass("nav-container--top-second");
+        $(".nav-container-container").addClass("nav-container--top-first");
+      } else {
+        $(".nav-container").removeClass("nav-container--move-up");
+        $(".nav-container").removeClass("nav-container--top-first");
+        $(".nav-container").removeClass("nav-container--top-second");
+      }
+    }
+
+    findCurrentTabSelector(element) {
+      let newCurrentId;
+      let newCurrentTab;
+      let self = this;
+      $(".nav-tab").each(function () {
+        let id = $(this).attr("href");
+        let offsetTop = $(id).offset().top - self.tabContainerHeight;
+        let offsetBottom =
+          $(id).offset().top + $(id).height() - self.tabContainerHeight;
+        if (
+          $(window).scrollTop() > offsetTop &&
+          $(window).scrollTop() < offsetBottom) {
+          newCurrentId = id;
+          newCurrentTab = $(this);
+        }
+      });
+      if (this.currentId != newCurrentId || this.currentId === null) {
+        this.currentId = newCurrentId;
+        this.currentTab = newCurrentTab;
+        this.setSliderCss();
+      }
+    }
+
+    setSliderCss() {
+      let width = 0;
+      let left = 0;
+      if (this.currentTab) {
+        width = this.currentTab.css("width");
+        left = this.currentTab.offset().left;
+      }
+      $(".nav-tab-slider").css("width", width);
+      $(".nav-tab-slider").css("left", left);
+    }
+  }
+
+  let arr = ["rgb(4, 251, 255)", "rgb(210, 104, 255) ","rgb(223, 4, 121) ", "rgb(255, 215, 166)", "chartreuse", "rgb(61, 61, 61)"]
+  let arrPlay = new Array(4)
+
+  fullcolorsbyrandom();
+
+
+  function fullcolorsbyrandom() {
+    for (let i = 0; i < 4; i++) {
+      arrPlay[i] = arr[(Math.floor(Math.random() * 6))]
+
+      for (let j = 0; j < i;) {
+        if (arrPlay[i] == arrPlay[j]) {
+          arrPlay[i] = arr[(Math.floor(Math.random() * 6))]
+          j = 0
+        }
+        else j++
+
+      }
+    }
+  }
+let start = 0
+let timeout;
+  function game() {
+    document.getElementById("myDiv2").innerHTML = ""
+    document.getElementById("myDiv").innerHTML = ""
+    document.getElementById("play_gain").innerText = "play again"
+    document.getElementById("play_gain").style.right = "20px"
+    document.getElementById("play_gain").style.bottom = "20px"
+    document.getElementById("play_gain").style.fontSize = "35px"
+    document.getElementById("play_gain").style.borderRadius = "10px"
+    
+    start = 0
+    clearTimeout(timeout);
+    timeout = setInterval(timedCount, 1000);
+    
+    
+
+    for (let i = 0; i < arr.length; i++) {
+      let brr = document.createElement("br")
+      let btn = document.createElement("input")
+      btn.setAttribute("type", "button")
+      btn.setAttribute("data-myI", i)
+      btn.style.borderRadius = "100px"
+      btn.style.width = "100px"
+      btn.style.height = "100px"
+      btn.style.marginTop = "15px"
+      btn.style.background = arr[i]
+      btn.style.border = "none"
+      myDiv.appendChild(btn)
+      btn.addEventListener("click", f_1)
+      myDiv.appendChild(brr)
+
+    }
+    let index = 0
+    let arrCheke = new Array(4)
+    let count = 0
+    let bool = 0
+    let pgiea = 0
+    let countPsila = 0
+    let countfinish = 0
+
+    function f_1() {
+      if (countfinish < 28) {
+        let i = event.target.getAttribute("data-myI")
+        arrCheke[index] = arr[i]
+        index++
+        count++
+        let btn = document.createElement("input")
+        btn.setAttribute("type", "button")
+        btn.style.borderRadius = "100px"
+        btn.style.width = "65px"
+        btn.style.height = "65px"
+        btn.style.marginLeft = "20px"
+        btn.style.background = arr[i]
+        myDiv2.appendChild(btn)
+        console.log(arrCheke)
+        countfinish++
+      }
+      else {
+        clearTimeout(timeout)
+        alert("game over!" + " " +"Your record is" + " "+ start)
+        let audio = new Audio('../audio/game-lose-sound.mp3');
+        audio.play();
+        
+      }
+      if (count == 4) {
+        countPsila++
+        myDiv2.appendChild(document.createElement("br"))
+
+        for (let i = 0; i < arrCheke.length; i++)
+          for (let j = 0; j < arrCheke.length; j++) {
+            if (arrCheke[i] == arrPlay[j]) {
+              if (i == j)
+                bool++
+              else
+                pgiea++
+            }
+          }
+        for (let x = 0; x < bool; x++) {
+          let btn = document.createElement("input")
+          btn.setAttribute("type", "button")
+          btn.style.background = "white"
+          btn.style.borderRadius = "100px"
+          btn.style.marginLeft = "60px"
+          btn.style.border = "2px solid gray"
+          myDiv2.appendChild(btn)
+        }
+
+        for (let x = 0; x < pgiea; x++) {
+          let btn = document.createElement("input")
+          btn.setAttribute("type", "button")
+          btn.style.marginLeft = "50px"
+          btn.style.background = "black"
+          btn.style.border = "2px solid gray"
+          btn.style.borderRadius = "100px"
+          myDiv2.appendChild(btn)
+        }
+
+        myDiv2.appendChild(document.createElement("br"))
+        myDiv2.appendChild(document.createElement("br"))
+
+        index = 0
+        count = 0
+        arrCheke = new Array(4)
+        if (bool == 4){
+          clearTimeout(timeout)
+        alert("You win!" + " " +"Your record is" + " "+ start)
+          let audio = new Audio('../audio/game_win.mp3');
+          audio.play();
+        }
+        bool = 0
+        pgiea = 0
+
+
+      }
+
+
+    }
+
+
+  }
+
+  function newgame() {
+    let start = 0
+    document.getElementById("myDiv2").innerHTML = ""
+    document.getElementById("myDiv").innerHTML = ""
+    fullcolorsbyrandom()
+    game()
+  }
+
+  
+
+
+
+function timedCount() {
+  document.getElementById("thetime").innerHTML = start;
+  start++;
+}
+
+
+
+  
+  
+
+
+  
+
+
+
+</script>
+
+</html>
